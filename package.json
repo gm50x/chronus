@@ -1,9 +1,6 @@
 {
   "name": "@gm50x/chronus",
-  "repository": {
-    "url": "https://github.com/gm50x/chronus",
-    "type": "git"
-  },
+  "repository": "git://github.com/gm50x/chronus",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
     "access": "public"

@@ -13,6 +13,7 @@ const main = () => {
   const daysAhead = today.addDays(100)
 
   console.log(now)
+  console.log(now.toDate())
   console.log(today)
   console.log(tomorrow)
   console.log(nextMonth)
@@ -25,7 +26,6 @@ const main = () => {
   console.log(now.equals(today))
   console.log(today.equals(today))
   console.log(now.timeOfDay.totalHours)
-
   console.log(TimeSpan.fromHours(2).toString())
 }
 

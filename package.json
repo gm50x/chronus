@@ -1,12 +1,14 @@
 {
-  "name": "date-time-span",
+  "name": "g-cal",
   "version": "1.0.0",
-  "main": "src/index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  }
 }

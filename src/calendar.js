@@ -1,15 +1,19 @@
 const {
+  inspect
+} = require('util')
+
+const {
   ONE_SECOND_MS,
   ONE_MINUTE_MS,
   ONE_HOUR_MS,
   ONE_DAY_MS
-} = require('./constants')
+} = require('./time.constant')
 
 const {
-  TimeSpan
-} = require('./timespan')
+  Duration
+} = require('./duration')
 
-class DateTime {
+class Calendar {
   constructor(year, month = 1, day = 1, hours = 0, minutes = 0, seconds = 0, milliseconds = 0) {
     const now = new Date()
     year = year || now.getFullYear()
@@ -23,7 +27,7 @@ class DateTime {
   }
 
   static fromDate(date = new Date()) {
-    return new DateTime(
+    return new Calendar(
       date.getFullYear(),
       date.getMonth() + 1,
       date.getDate(),
@@ -34,6 +38,10 @@ class DateTime {
     )
   }
 
+  toDate() {
+    return new Date(this._ref);
+  }
+
   static daysInMonth(year, month) {
     return new Date(year, month, 0)
       .getDate()
@@ -41,7 +49,7 @@ class DateTime {
 
   static get now() {
     const now = new Date()
-    return new DateTime(
+    return new Calendar(
       now.getFullYear(),
       now.getMonth() + 1,
       now.getDate(),
@@ -54,7 +62,7 @@ class DateTime {
 
   static get today() {
     const date = new Date()
-    return DateTime.fromDate(
+    return Calendar.fromDate(
       new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -105,31 +113,31 @@ class DateTime {
   }
 
   get timeOfDay() {
-    return new TimeSpan(this._ref.getTime() - DateTime.today.ticks)
+    return new Duration(this._ref.getTime() - Calendar.today.ticks)
   }
 
-  add(timespan = new TimeSpan()) {
-    return DateTime.fromDate(new Date(this._ref.getTime() + timespan.totalMilliseconds))
+  add(duration = new Duration()) {
+    return Calendar.fromDate(new Date(this._ref.getTime() + duration.totalMilliseconds))
   }
 
   addMilliseconds(ms = 0) {
-    return DateTime.fromDate(new Date(this._ref.getTime() + ms))
+    return Calendar.fromDate(new Date(this._ref.getTime() + ms))
   }
 
   addSeconds(seconds = 0) {
-    return DateTime.fromDate(new Date(this._ref.getTime() + seconds * ONE_SECOND_MS))
+    return Calendar.fromDate(new Date(this._ref.getTime() + seconds * ONE_SECOND_MS))
   }
 
   addMinutes(minutes = 0) {
-    return DateTime.fromDate(new Date(this._ref.getTime() + minutes * ONE_MINUTE_MS))
+    return Calendar.fromDate(new Date(this._ref.getTime() + minutes * ONE_MINUTE_MS))
   }
 
   addHours(hours = 0) {
-    return DateTime.fromDate(new Date(this._ref.getTime() + hours * ONE_HOUR_MS))
+    return Calendar.fromDate(new Date(this._ref.getTime() + hours * ONE_HOUR_MS))
   }
 
   addDays(days = 0) {
-    return DateTime.fromDate(new Date(this._ref.getTime() + days * ONE_DAY_MS))
+    return Calendar.fromDate(new Date(this._ref.getTime() + days * ONE_DAY_MS))
   }
 
   addMonths(months = 0) {
@@ -137,9 +145,9 @@ class DateTime {
     const yearsOffset = Math.floor(monthOffset / 12)
     const month = monthOffset % 12
     const date = this.addYears(yearsOffset)
-    const daysInMonth = DateTime.daysInMonth(date.year, month)
+    const daysInMonth = Calendar.daysInMonth(date.year, month)
     const day = (month === 2 && this.day > daysInMonth) ? daysInMonth : this.day
-    return new DateTime(
+    return new Calendar(
       date.year,
       month,
       day,
@@ -152,9 +160,9 @@ class DateTime {
 
   addYears(years = 0) {
     const year = this.year + years
-    const daysInMonth = DateTime.daysInMonth(year, this.month)
+    const daysInMonth = Calendar.daysInMonth(year, this.month)
     const day = (this.month === 2 && this.day > daysInMonth) ? daysInMonth : this.day
-    return new DateTime(
+    return new Calendar(
       this.year + years,
       this.month,
       day,
@@ -165,11 +173,11 @@ class DateTime {
     )
   }
 
-  subtract(date = new DateTime()) {
-    return new TimeSpan(this._ref.getTime() - date._ref.getTime())
+  subtract(date = new Calendar()) {
+    return new Duration(this._ref.getTime() - date._ref.getTime())
   }
 
-  compareTo(date = new DateTime()) {
+  compareTo(date = new Calendar()) {
     const diff = this.ticks - date.ticks
     if (diff > 0) {
       return 1
@@ -180,11 +188,15 @@ class DateTime {
     }
   }
 
-  equals(date = new DateTime()) {
+  equals(date = new Calendar()) {
     return this.ticks === date.ticks
+  }
+
+  [inspect.custom](depth, opts) {
+    return new Date(this._ref)
   }
 }
 
 module.exports = {
-  DateTime
+  Calendar
 }

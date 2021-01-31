@@ -1,5 +1,5 @@
 module.exports = {
-  ...require('./constants'),
-  ...require('./datetime'),
-  ...require('./timespan'),
+  ...require('./time.constant'),
+  ...require('./calendar'),
+  ...require('./duration'),
 }

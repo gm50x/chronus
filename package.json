@@ -1,13 +1,17 @@
 {
-  "name": "g-cal",
-  "version": "1.0.0",
+  "name": "chronus",
+  "repository": {
+    "url": "https://github.com/gm50x/chronus",
+    "type": "git"
+  },
+  "version": "0.0.1",
   "scripts": {
     "test": "mocha test"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": "Getúlio Magela Silva",
+  "license": "MIT",
+  "description": "Chronus is a lightweight Date and Time manipulation library for javascript.",
   "devDependencies": {
     "mocha": "^8.2.1"
   }

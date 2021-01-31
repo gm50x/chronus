@@ -1,9 +1,9 @@
 const {
-  Calendar,
-  Duration,
+  DateTime,
+  TimeSpan,
 } = require('./src')
 
 module.exports = {
-  Calendar,
-  Duration,
+  DateTime,
+  TimeSpan,
 }

@@ -9,29 +9,29 @@ const {
   ONE_DAY_MS
 } = require('./time.constant')
 
-class Duration {
+class TimeSpan {
   constructor(ticks = 0) {
     this._ref = ticks
   }
 
   static fromMilliseconds(ms = 0) {
-    return new Duration(ms)
+    return new TimeSpan(ms)
   }
 
   static fromSeconds(seconds = 0) {
-    return new Duration(seconds * ONE_SECOND_MS)
+    return new TimeSpan(seconds * ONE_SECOND_MS)
   }
 
   static fromMinutes(minutes = 0) {
-    return new Duration(minutes * ONE_MINUTE_MS)
+    return new TimeSpan(minutes * ONE_MINUTE_MS)
   }
 
   static fromHours(hours = 0) {
-    return new Duration(hours * ONE_HOUR_MS)
+    return new TimeSpan(hours * ONE_HOUR_MS)
   }
 
   static fromDays(days = 0) {
-    return new Duration(days * ONE_DAY_MS)
+    return new TimeSpan(days * ONE_DAY_MS)
   }
 
   toString() {
@@ -90,5 +90,5 @@ class Duration {
 }
 
 module.exports = {
-  Duration,
+  TimeSpan,
 }

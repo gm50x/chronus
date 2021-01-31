@@ -10,10 +10,10 @@ const {
 } = require('./time.constant')
 
 const {
-  Duration
-} = require('./duration')
+  TimeSpan
+} = require('./time-span')
 
-class Calendar {
+class DateTime {
   constructor(year, month = 1, day = 1, hours = 0, minutes = 0, seconds = 0, milliseconds = 0) {
     const now = new Date()
     year = year || now.getFullYear()
@@ -27,7 +27,7 @@ class Calendar {
   }
 
   static fromDate(date = new Date()) {
-    return new Calendar(
+    return new DateTime(
       date.getFullYear(),
       date.getMonth() + 1,
       date.getDate(),
@@ -45,7 +45,7 @@ class Calendar {
 
   static get now() {
     const now = new Date()
-    return new Calendar(
+    return new DateTime(
       now.getFullYear(),
       now.getMonth() + 1,
       now.getDate(),
@@ -58,7 +58,7 @@ class Calendar {
 
   static get today() {
     const date = new Date()
-    return Calendar.fromDate(
+    return DateTime.fromDate(
       new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -108,35 +108,35 @@ class Calendar {
   }
 
   get timeOfDay() {
-    return new Duration(this._ref.getTime() - Calendar.today.ticks)
+    return new TimeSpan(this._ref.getTime() - DateTime.today.ticks)
   }
 
   toDate() {
     return new Date(this._ref)
   }
 
-  add(duration = new Duration()) {
-    return Calendar.fromDate(new Date(this._ref.getTime() + duration.totalMilliseconds))
+  add(timespan = new TimeSpan()) {
+    return DateTime.fromDate(new Date(this._ref.getTime() + timespan.totalMilliseconds))
   }
 
   addMilliseconds(ms = 0) {
-    return Calendar.fromDate(new Date(this._ref.getTime() + ms))
+    return DateTime.fromDate(new Date(this._ref.getTime() + ms))
   }
 
   addSeconds(seconds = 0) {
-    return Calendar.fromDate(new Date(this._ref.getTime() + seconds * ONE_SECOND_MS))
+    return DateTime.fromDate(new Date(this._ref.getTime() + seconds * ONE_SECOND_MS))
   }
 
   addMinutes(minutes = 0) {
-    return Calendar.fromDate(new Date(this._ref.getTime() + minutes * ONE_MINUTE_MS))
+    return DateTime.fromDate(new Date(this._ref.getTime() + minutes * ONE_MINUTE_MS))
   }
 
   addHours(hours = 0) {
-    return Calendar.fromDate(new Date(this._ref.getTime() + hours * ONE_HOUR_MS))
+    return DateTime.fromDate(new Date(this._ref.getTime() + hours * ONE_HOUR_MS))
   }
 
   addDays(days = 0) {
-    return Calendar.fromDate(new Date(this._ref.getTime() + days * ONE_DAY_MS))
+    return DateTime.fromDate(new Date(this._ref.getTime() + days * ONE_DAY_MS))
   }
 
   addMonths(months = 0) {
@@ -144,10 +144,10 @@ class Calendar {
     const remainingMonths = months % 12
     const dateOffsetedByYear = this.addYears(years)
     const month = dateOffsetedByYear.month + remainingMonths
-    const daysInMonth = Calendar.daysInMonth(dateOffsetedByYear.year, month)
+    const daysInMonth = DateTime.daysInMonth(dateOffsetedByYear.year, month)
     const day = this.day <= daysInMonth ? this.day : daysInMonth
 
-    return new Calendar(
+    return new DateTime(
       dateOffsetedByYear.year,
       month,
       day,
@@ -160,9 +160,9 @@ class Calendar {
 
   addYears(years = 0) {
     const year = this.year + years
-    const daysInMonth = Calendar.daysInMonth(year, this.month)
+    const daysInMonth = DateTime.daysInMonth(year, this.month)
     const day = (this.month === 2 && this.day > daysInMonth) ? daysInMonth : this.day
-    return new Calendar(
+    return new DateTime(
       this.year + years,
       this.month,
       day,
@@ -173,11 +173,11 @@ class Calendar {
     )
   }
 
-  subtract(date = new Calendar()) {
-    return new Duration(this._ref.getTime() - date._ref.getTime())
+  subtract(date = new DateTime()) {
+    return new TimeSpan(this._ref.getTime() - date._ref.getTime())
   }
 
-  compareTo(date = new Calendar()) {
+  compareTo(date = new DateTime()) {
     const diff = this.ticks - date.ticks
     if (diff > 0) {
       return 1
@@ -188,7 +188,7 @@ class Calendar {
     }
   }
 
-  equals(date = new Calendar()) {
+  equals(date = new DateTime()) {
     return this.ticks === date.ticks
   }
 
@@ -198,5 +198,5 @@ class Calendar {
 }
 
 module.exports = {
-  Calendar
+  DateTime,
 }

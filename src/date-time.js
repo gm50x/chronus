@@ -9,11 +9,9 @@ const {
   ONE_DAY_MS
 } = require('./time.constant')
 
-const {
-  TimeSpan
-} = require('./time-span')
+const TimeSpan = require('./time-span')
 
-class DateTime {
+module.exports = class DateTime {
   constructor(year, month = 1, day = 1, hours = 0, minutes = 0, seconds = 0, milliseconds = 0) {
     const now = new Date()
     year = year || now.getFullYear()
@@ -195,8 +193,4 @@ class DateTime {
   [inspect.custom](depth, opts) {
     return new Date(this._ref)
   }
-}
-
-module.exports = {
-  DateTime,
 }

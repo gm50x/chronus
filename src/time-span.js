@@ -9,7 +9,7 @@ const {
   ONE_DAY_MS
 } = require('./time.constant')
 
-class TimeSpan {
+module.exports = class TimeSpan {
   constructor(ticks = 0) {
     this._ref = ticks
   }
@@ -87,8 +87,4 @@ class TimeSpan {
   [inspect.custom](depth, opts) {
     return this.toString()
   }
-}
-
-module.exports = {
-  TimeSpan,
 }

@@ -1,5 +1,5 @@
 module.exports = {
   ...require('./time.constant'),
-  ...require('./date-time'),
-  ...require('./time-span'),
+  DateTime: require('./date-time'),
+  TimeSpan: require('./time-span'),
 }

@@ -5,7 +5,7 @@
     "registry": "https://npm.pkg.github.com",
     "access": "public"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "test": "mocha test",
     "prebuild": "rimraf dist",

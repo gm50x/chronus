@@ -11,7 +11,7 @@
   "keywords": [],
   "author": "Getúlio Magela Silva",
   "license": "MIT",
-  "description": "Chronus is a lightweight Date and Time manipulation library for javascript.",
+  "description": "Chronus is a lightweight Date and Time manipulation library for JavaScript.",
   "devDependencies": {
     "mocha": "^8.2.1"
   }

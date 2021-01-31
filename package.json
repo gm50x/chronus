@@ -1,0 +1,27 @@
+{
+  "name": "@gm50x/chronus",
+  "repository": {
+    "url": "https://github.com/gm50x/chronus",
+    "type": "git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "version": "0.0.1",
+  "scripts": {
+    "test": "mocha test",
+    "prebuild": "rimraf dist",
+    "build": "copyfiles -a LICENCE README.md package*.json index.js src/**/*.js dist",
+    "publish": "npm publish dist"
+  },
+  "keywords": [],
+  "author": "Getúlio Magela Silva",
+  "license": "MIT",
+  "description": "Chronus is a lightweight Date and Time manipulation library for JavaScript.",
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "mocha": "^8.2.1",
+    "rimraf": "^3.0.2"
+  }
+}

@@ -17,12 +17,12 @@ class Calendar {
   constructor(year, month = 1, day = 1, hours = 0, minutes = 0, seconds = 0, milliseconds = 0) {
     const now = new Date()
     year = year || now.getFullYear()
-    month = month || now.getMonth() + 1
+    month = (month || month === 0) ? month : now.getMonth() + 1
     day = day || now.getDate()
     hours = (hours || hours === 0) ? hours : now.getHours()
     minutes = (minutes || minutes === 0) ? minutes : now.getMinutes()
     seconds = (seconds || seconds === 0) ? seconds : now.getSeconds()
-    milliseconds = (milliseconds || milliseconds !== 0) ? milliseconds : now.getMilliseconds()
+    milliseconds = (milliseconds || milliseconds === 0) ? milliseconds : now.getMilliseconds()
     this._ref = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds)
   }
 
@@ -36,10 +36,6 @@ class Calendar {
       date.getSeconds(),
       date.getMilliseconds(),
     )
-  }
-
-  toDate() {
-    return new Date(this._ref);
   }
 
   static daysInMonth(year, month) {
@@ -95,7 +91,6 @@ class Calendar {
     return this._ref.getDate()
   }
 
-
   get month() {
     return this._ref.getMonth() + 1
   }
@@ -109,11 +104,15 @@ class Calendar {
   }
 
   get dayOfYear() {
-    return (Date.UTC(this._ref.getFullYear(), this._ref.getMonth(), this._ref.getDate()) - Date.UTC(this._ref.getFullYear(), 0, 0)) / ONE_DAY_MS;
+    return (Date.UTC(this._ref.getFullYear(), this._ref.getMonth(), this._ref.getDate()) - Date.UTC(this._ref.getFullYear(), 0, 0)) / ONE_DAY_MS
   }
 
   get timeOfDay() {
     return new Duration(this._ref.getTime() - Calendar.today.ticks)
+  }
+
+  toDate() {
+    return new Date(this._ref)
   }
 
   add(duration = new Duration()) {
@@ -141,20 +140,21 @@ class Calendar {
   }
 
   addMonths(months = 0) {
-    const monthOffset = this.month + months
-    const yearsOffset = Math.floor(monthOffset / 12)
-    const month = monthOffset % 12
-    const date = this.addYears(yearsOffset)
-    const daysInMonth = Calendar.daysInMonth(date.year, month)
-    const day = (month === 2 && this.day > daysInMonth) ? daysInMonth : this.day
+    const years = months < 0 ? Math.ceil(months / 12) : Math.floor(months / 12)
+    const remainingMonths = months % 12
+    const dateOffsetedByYear = this.addYears(years)
+    const month = dateOffsetedByYear.month + remainingMonths
+    const daysInMonth = Calendar.daysInMonth(dateOffsetedByYear.year, month)
+    const day = this.day <= daysInMonth ? this.day : daysInMonth
+
     return new Calendar(
-      date.year,
+      dateOffsetedByYear.year,
       month,
       day,
-      date.hours,
-      date.minutes,
-      date.seconds,
-      date.milliseconds,
+      dateOffsetedByYear.hours,
+      dateOffsetedByYear.minutes,
+      dateOffsetedByYear.seconds,
+      dateOffsetedByYear.milliseconds,
     )
   }
 

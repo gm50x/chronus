@@ -144,7 +144,7 @@ describe(`${subject} Specs`, () => {
     })
   }
 
-  it(`${subject}.subtract(\${subject.today}) should return a 12 hours timespan object.`, () => {
+  it(`now.subtract(DateTime.today) results in 12 hours TimeSpan.`, () => {
     const expected = 12 * 1000 * 60 * 60
     const actual = new DateTime(2021, 1, 31, 12).subtract(DateTime.today).totalMilliseconds
     expect(actual).toStrictEqual(expected)

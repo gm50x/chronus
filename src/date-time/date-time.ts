@@ -179,7 +179,7 @@ export class DateTime {
   }
 
   subtract(date = new DateTime()): TimeSpan {
-    return new TimeSpan(this._ref.getTime() - date._ref.getTime())
+    return new TimeSpan(this.ticks - date.ticks)
   }
 
   compareTo(date = new DateTime()): -1 | 0 | 1 {

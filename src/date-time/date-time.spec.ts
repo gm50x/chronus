@@ -1,54 +1,53 @@
-const { strictEqual } = require('assert')
-const {
+import {
   ONE_DAY_MS,
   ONE_SECOND_MS,
   ONE_MINUTE_MS,
   ONE_HOUR_MS,
+} from '../time-constants'
+
+import {
   TimeSpan,
   DateTime
-} = require('../src')
+} from '..'
 
 const subject = DateTime.name
 
 describe(`${subject} Specs`, () => {
   it(`new ${subject} should return an instance of the ${subject} class`, () => {
-    const expected = true
-    const actual = new DateTime() instanceof DateTime
-    strictEqual(expected, actual)
+    expect(new DateTime()).toBeInstanceOf(DateTime)
   })
 
   it(`${subject}.today should return the representation of today`, () => {
     const ref = new Date()
     const expected = new Date(ref.getFullYear(), ref.getMonth(), ref.getDate()).getTime()
     const actual = DateTime.today.ticks
-    strictEqual(actual, expected)
+    expect(actual).toStrictEqual(expected)
   })
 
   it(`${subject}.now should return the representation of now`, () => {
     const expected = Date.now()
     const actual = DateTime.now.ticks
     const offset = actual - expected
-    strictEqual(actual, expected + offset, `${actual}, ${expected}, ${offset}`)
+    expect(actual).toStrictEqual(expected + offset)
   })
 
   it(`${subject}.fromDate should return a ${subject} instance`, () => {
-    const expected = true
-    const actual = DateTime.fromDate(new Date()) instanceof DateTime
-    strictEqual(actual, expected)
+    const actual = DateTime.fromDate(new Date())
+    expect(actual).toBeInstanceOf(DateTime)
   })
 
   it(`${subject}.fromDate should return a ${subject} corresponding to the a given date`, () => {
     const ref = new Date()
     const expected = ref.getTime()
     const actual = DateTime.fromDate(ref).ticks
-    strictEqual(actual, expected)
+    expect(actual).toStrictEqual(expected)
   })
 
   it(`${subject}.fromDate should return a ${subject} corresponding to the a given date`, () => {
     const ref = new Date()
     const expected = ref.getTime()
     const actual = DateTime.fromDate(ref).ticks
-    strictEqual(actual, expected)
+    expect(actual).toStrictEqual(expected)
   })
 
   for (const n of [-15, -10, -5, -2, -1, 0, 1, 2, 5, 10, 15]) {
@@ -56,7 +55,7 @@ describe(`${subject} Specs`, () => {
       const ref = new Date()
       const expected = ref.getTime() + n
       const actual = DateTime.fromDate(ref).addMilliseconds(n).ticks
-      strictEqual(actual, expected)
+      expect(actual).toStrictEqual(expected)
     })
   }
 
@@ -65,7 +64,7 @@ describe(`${subject} Specs`, () => {
       const ref = new Date()
       const expected = ref.getTime() + n * ONE_SECOND_MS
       const actual = DateTime.fromDate(ref).addSeconds(n).ticks
-      strictEqual(actual, expected)
+      expect(actual).toStrictEqual(expected)
     })
   }
 
@@ -74,7 +73,7 @@ describe(`${subject} Specs`, () => {
       const ref = new Date()
       const expected = ref.getTime() + n * ONE_MINUTE_MS
       const actual = DateTime.fromDate(ref).addMinutes(n).ticks
-      strictEqual(actual, expected)
+      expect(actual).toStrictEqual(expected)
     })
   }
 
@@ -83,7 +82,15 @@ describe(`${subject} Specs`, () => {
       const ref = new Date()
       const expected = ref.getTime() + n * ONE_HOUR_MS
       const actual = DateTime.fromDate(ref).addHours(n).ticks
-      strictEqual(actual, expected)
+      expect(actual).toStrictEqual(expected)
+    })
+  }
+  for (const n of [-15, -10, -5, -2, -1, 0, 1, 2, 5, 10, 15]) {
+    it(`${subject}.addDays(${n}) should return a ${subject} representing the provided date, at the same time of the original date`, () => {
+      const ref = new Date()
+      const expected = ref.getTime() + n * ONE_DAY_MS
+      const actual = DateTime.fromDate(ref).addDays(n).ticks
+      expect(actual).toStrictEqual(expected)
     })
   }
 
@@ -106,7 +113,7 @@ describe(`${subject} Specs`, () => {
       const ref = n.ref
       const expected = n.expected.getTime()
       const actual = DateTime.fromDate(ref).addMonths(n.param).ticks
-      strictEqual(actual, expected)
+      expect(actual).toStrictEqual(expected)
     })
   }
 
@@ -115,7 +122,7 @@ describe(`${subject} Specs`, () => {
       const ref = new Date()
       const expected = new Date(ref.getFullYear() + n, ref.getMonth(), ref.getDate(), ref.getHours(), ref.getMinutes(), ref.getSeconds(), ref.getMilliseconds()).getTime()
       const actual = DateTime.fromDate(ref).addYears(n).ticks
-      strictEqual(actual, expected)
+      expect(actual).toStrictEqual(expected)
     })
   }
 
@@ -123,7 +130,7 @@ describe(`${subject} Specs`, () => {
     const ref = new Date(2020, 1, 29)
     const expected = new Date(ref.getFullYear() + 1, ref.getMonth(), 28, ref.getHours(), ref.getMinutes(), ref.getSeconds(), ref.getMilliseconds()).getTime()
     const actual = DateTime.fromDate(ref).addYears(1).ticks
-    strictEqual(actual, expected)
+    expect(actual).toStrictEqual(expected)
   })
 
 
@@ -133,13 +140,13 @@ describe(`${subject} Specs`, () => {
     it(`${subject}.add(TimeSpan.fromDays(1)) should return a ${subject} that represents one day ahead`, () => {
       const expected = n.expected
       const actual = DateTime.fromDate(n.ref).add(TimeSpan.fromDays(1)).ticks
-      strictEqual(actual, expected)
+      expect(actual).toStrictEqual(expected)
     })
   }
 
-  it(`${subject}.subtract(${subject.today}) should return a 12 hours timespan object.`, () => {
+  it(`${subject}.subtract(\${subject.today}) should return a 12 hours timespan object.`, () => {
     const expected = 12 * 1000 * 60 * 60
     const actual = new DateTime(2021, 1, 31, 12).subtract(DateTime.today).totalMilliseconds
-    strictEqual(actual, expected)
+    expect(actual).toStrictEqual(expected)
   })
 })

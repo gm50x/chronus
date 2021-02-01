@@ -5,7 +5,7 @@
     "registry": "https://npm.pkg.github.com",
     "access": "public"
   },
-  "version": "0.2.1",
+  "version": "0.3.0",
   "scripts": {
     "test": "jest",
     "prebuild": "rimraf dist",

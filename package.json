@@ -5,14 +5,13 @@
     "registry": "https://npm.pkg.github.com",
     "access": "public"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "scripts": {
     "test": "jest",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.build.json",
     "postbuild": "copyfiles -a LICENSE README.md package*.json index.ts dist",
-    "build2": "copyfiles -a LICENCE README.md package*.json index.js src/**/*.js dist",
-    "publish": "npm publish dist"
+    "publish": "cd dist && npm publish"
   },
   "keywords": [],
   "author": "Getúlio Magela Silva",

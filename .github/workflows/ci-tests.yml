@@ -43,7 +43,6 @@ jobs:
           node-version: 12
       - run: npm ci
       - run: npm test
-      - run: cat ~/.npmrc
         
   check-file:
     needs: build
@@ -56,5 +55,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
       - run: ls -al
+      - run: cat ~/.npmrc
         env:
           NODE_AUTH_TOKEN: foo123bar

@@ -1,11 +1,14 @@
 {
   "name": "@gm50x/chronus",
-  "repository": "git://github.com/gm50x/chronus",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gm50x/chronus"
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
     "access": "public"
   },
-  "version": "0.3.1",
+  "version": "0.3.2",
   "scripts": {
     "test": "jest",
     "prebuild": "rimraf dist",

@@ -4,11 +4,9 @@ import {
   ONE_MINUTE_MS,
   ONE_HOUR_MS,
 } from '../time-constants'
+import { DateTime } from '.'
+import { TimeSpan } from '../time-span'
 
-import {
-  TimeSpan,
-  DateTime
-} from '..'
 
 const subject = DateTime.name
 
@@ -144,9 +142,16 @@ describe(`${subject} Specs`, () => {
     })
   }
 
+  it(`DateTime .subtract returns an instance of a TimeSpan`, () => {
+    const ref = new DateTime()
+    const actual = ref.subtract(ref.addHours(-1))
+    expect(actual).toBeInstanceOf(TimeSpan)
+  })
+
   it(`new DateTime(2021, 1, 31, 12).subtract(DateTime.today) results in 12 hours TimeSpan.`, () => {
+    const ref = new DateTime(2021, 1, 31, 12)
     const expected = 12 * 1000 * 60 * 60
-    const actual = new DateTime(2021, 1, 31, 12).subtract(DateTime.today).totalMilliseconds
+    const actual = ref.subtract(DateTime.today).totalMilliseconds
     expect(actual).toStrictEqual(expected)
   })
 })

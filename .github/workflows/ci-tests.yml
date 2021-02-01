@@ -54,6 +54,6 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
-      - run: cat .npmrc
+      - run: ls -al
         env:
           NODE_AUTH_TOKEN: foo123bar

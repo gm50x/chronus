@@ -53,8 +53,10 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-      - run: npm ci
+      - run: | 
+          echo "//npm.pkg.github.com/:_authToken=${{NODE_AUTH_TOKEN}}" > .npmrc
+          echo "@gm50x=registry=https://npm.pkg.github.com" >> .npmrc
       - run: ls -al
-      - run: cat ~/.npmrc
+      - run: cat .npmrc
         env:
           NODE_AUTH_TOKEN: foo123bar

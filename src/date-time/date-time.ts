@@ -1,20 +1,25 @@
-const {
-  inspect
-} = require('util')
-
-const {
+import { inspect } from 'util'
+import {
   ONE_SECOND_MS,
   ONE_MINUTE_MS,
   ONE_HOUR_MS,
   ONE_DAY_MS
-} = require('./time.constant')
+} from '../time-constants'
+import { TimeSpan } from '../time-span'
 
-const {
-  TimeSpan
-} = require('./time-span')
 
-class DateTime {
-  constructor(year, month = 1, day = 1, hours = 0, minutes = 0, seconds = 0, milliseconds = 0) {
+export class DateTime {
+  private _ref: Date
+
+  constructor(
+    year?: number,
+    month: number = 1,
+    day: number = 1,
+    hours: number = 0,
+    minutes: number = 0,
+    seconds: number = 0,
+    milliseconds: number = 0
+  ) {
     const now = new Date()
     year = year || now.getFullYear()
     month = (month || month === 0) ? month : now.getMonth() + 1
@@ -26,7 +31,7 @@ class DateTime {
     this._ref = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds)
   }
 
-  static fromDate(date = new Date()) {
+  static fromDate(date = new Date()): DateTime {
     return new DateTime(
       date.getFullYear(),
       date.getMonth() + 1,
@@ -38,12 +43,12 @@ class DateTime {
     )
   }
 
-  static daysInMonth(year, month) {
+  static daysInMonth(year, month): number {
     return new Date(year, month, 0)
       .getDate()
   }
 
-  static get now() {
+  static get now(): DateTime {
     const now = new Date()
     return new DateTime(
       now.getFullYear(),
@@ -56,7 +61,7 @@ class DateTime {
     )
   }
 
-  static get today() {
+  static get today(): DateTime {
     const date = new Date()
     return DateTime.fromDate(
       new Date(
@@ -67,79 +72,79 @@ class DateTime {
     )
   }
 
-  get ticks() {
+  get ticks(): number {
     return this._ref.getTime()
   }
 
-  get milliseconds() {
+  get milliseconds(): number {
     return this._ref.getMilliseconds()
   }
 
-  get seconds() {
+  get seconds(): number {
     return this._ref.getSeconds()
   }
 
-  get minutes() {
+  get minutes(): number {
     return this._ref.getMinutes()
   }
 
-  get hours() {
+  get hours(): number {
     return this._ref.getHours()
   }
 
-  get day() {
+  get day(): number {
     return this._ref.getDate()
   }
 
-  get month() {
+  get month(): number {
     return this._ref.getMonth() + 1
   }
 
-  get year() {
+  get year(): number {
     return this._ref.getFullYear()
   }
 
-  get dayOfWeek() {
+  get dayOfWeek(): number {
     return this._ref.getDay()
   }
 
-  get dayOfYear() {
+  get dayOfYear(): number {
     return (Date.UTC(this._ref.getFullYear(), this._ref.getMonth(), this._ref.getDate()) - Date.UTC(this._ref.getFullYear(), 0, 0)) / ONE_DAY_MS
   }
 
-  get timeOfDay() {
+  get timeOfDay(): TimeSpan {
     return new TimeSpan(this._ref.getTime() - DateTime.today.ticks)
   }
 
-  toDate() {
+  toDate(): Date {
     return new Date(this._ref)
   }
 
-  add(timespan = new TimeSpan()) {
+  add(timespan = new TimeSpan()): DateTime {
     return DateTime.fromDate(new Date(this._ref.getTime() + timespan.totalMilliseconds))
   }
 
-  addMilliseconds(ms = 0) {
+  addMilliseconds(ms = 0): DateTime {
     return DateTime.fromDate(new Date(this._ref.getTime() + ms))
   }
 
-  addSeconds(seconds = 0) {
+  addSeconds(seconds = 0): DateTime {
     return DateTime.fromDate(new Date(this._ref.getTime() + seconds * ONE_SECOND_MS))
   }
 
-  addMinutes(minutes = 0) {
+  addMinutes(minutes = 0): DateTime {
     return DateTime.fromDate(new Date(this._ref.getTime() + minutes * ONE_MINUTE_MS))
   }
 
-  addHours(hours = 0) {
+  addHours(hours = 0): DateTime {
     return DateTime.fromDate(new Date(this._ref.getTime() + hours * ONE_HOUR_MS))
   }
 
-  addDays(days = 0) {
+  addDays(days = 0): DateTime {
     return DateTime.fromDate(new Date(this._ref.getTime() + days * ONE_DAY_MS))
   }
 
-  addMonths(months = 0) {
+  addMonths(months = 0): DateTime {
     const years = months < 0 ? Math.ceil(months / 12) : Math.floor(months / 12)
     const remainingMonths = months % 12
     const dateOffsetedByYear = this.addYears(years)
@@ -158,7 +163,7 @@ class DateTime {
     )
   }
 
-  addYears(years = 0) {
+  addYears(years = 0): DateTime {
     const year = this.year + years
     const daysInMonth = DateTime.daysInMonth(year, this.month)
     const day = (this.month === 2 && this.day > daysInMonth) ? daysInMonth : this.day
@@ -173,11 +178,11 @@ class DateTime {
     )
   }
 
-  subtract(date = new DateTime()) {
-    return new TimeSpan(this._ref.getTime() - date._ref.getTime())
+  subtract(date = new DateTime()): TimeSpan {
+    return new TimeSpan(this.ticks - date.ticks)
   }
 
-  compareTo(date = new DateTime()) {
+  compareTo(date = new DateTime()): -1 | 0 | 1 {
     const diff = this.ticks - date.ticks
     if (diff > 0) {
       return 1
@@ -188,15 +193,11 @@ class DateTime {
     }
   }
 
-  equals(date = new DateTime()) {
+  equals(date = new DateTime()): boolean {
     return this.ticks === date.ticks
   }
 
-  [inspect.custom](depth, opts) {
+  [inspect.custom](depth: unknown, opts: unknown): Date {
     return new Date(this._ref)
   }
-}
-
-module.exports = {
-  DateTime,
 }

@@ -1,9 +1,4 @@
-const {
-  DateTime,
-  TimeSpan,
-} = require('./src')
-
 module.exports = {
-  DateTime,
-  TimeSpan,
+  DateTime: require('./src/date-time'),
+  TimeSpan: require('./src/time-span'),
 }

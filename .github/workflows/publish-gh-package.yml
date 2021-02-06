@@ -37,5 +37,5 @@ jobs:
       - run: cd dist
       - run: | 
           echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
-          echo "@gm50x=registry=https://npm.pkg.github.com" >> .npmrc
+          echo "registry=https://npm.pkg.github.com" >> .npmrc
       - run: npm publish

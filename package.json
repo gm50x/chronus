@@ -4,16 +4,12 @@
     "type": "git",
     "url": "https://github.com/gm50x/chronus"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "version": "0.3.5",
   "scripts": {
     "test": "jest",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.build.json",
     "postbuild": "copyfiles -a LICENSE README.md package*.json index.ts dist",
-    "release": "npm publish dist"
   },
   "keywords": [],
   "author": "Getúlio Magela Silva",

@@ -31,7 +31,7 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
           token: ${{ secrets.NPM_AUTH_TOKEN }} 
-          scope: gm50x
+          scope: ${{ secrets.PKG_SCOPE }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - run: npm i

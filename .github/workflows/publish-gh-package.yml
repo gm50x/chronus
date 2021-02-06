@@ -6,16 +6,32 @@ name: Publish Github Package
 on:
   release:
     types: [created]
-
+  
+  workflow_dispatch:
+  
 jobs:
-  build:
+  generate-npmrc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm ci
+          registry-url: https://npm.pkg.github.com/
+      - run: | 
+          echo "//npm.pkg.github.com/:_authToken=${{secrets.GH_AUTH_TOKEN}}" > .npmrc
+          echo "@gm50x=registry=https://npm.pkg.github.com" >> .npmrc
+        
+  build:
+    needs: [generate-npmrc]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm i
+      - run: npm run build
       - run: npm test
 
   publish-gpr:
@@ -28,6 +44,4 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
-      - run: npm run publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GH_AUTH_TOKEN}}
+      - run: npm run release

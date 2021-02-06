@@ -32,7 +32,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: | 
           echo "//registry.npmjs.org/:_authToken==${{secrets.NPM_AUTH_TOKEN}}" > .npmrc
-          echo "registry=https://registry.npmjs.org/" >> .npmrc
       - run: npm i
       - run: npm run build
       - run: npm publish

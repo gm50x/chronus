@@ -10,20 +10,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  generate-npmrc:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: https://npm.pkg.github.com/
-      - run: | 
-          echo "//npm.pkg.github.com/:_authToken=${{secrets.GH_AUTH_TOKEN}}" > .npmrc
-          echo "@gm50x=registry=https://npm.pkg.github.com" >> .npmrc
-        
   build:
-    needs: [generate-npmrc]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +22,7 @@ jobs:
       - run: npm test
 
   publish-gpr:
-    needs: [build, generate-npmrc]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -44,6 +31,7 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
-      - run: ls -al
-      - run: cat .npmrc
-#       - run: npm publish
+      - run: | 
+          echo "//npm.pkg.github.com/:_authToken=${{secrets.GH_AUTH_TOKEN}}" > .npmrc
+          echo "@gm50x=registry=https://npm.pkg.github.com" >> .npmrc
+      - run: npm publish

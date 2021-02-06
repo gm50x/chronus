@@ -59,7 +59,6 @@ export class TimeSpan {
 
 
   toString(): string {
-    console.log(this._ref);
     const pad = (n: number, x: number = 2) => n.toString().padStart(x, '0')
     const addNegativeSymbolIfNeeded = (s: string, timespan: TimeSpan = this) => `${timespan._ref < 0 ? '-' : ''}${s}`;
     return addNegativeSymbolIfNeeded(`${Math.abs(this.days)

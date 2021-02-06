@@ -32,13 +32,11 @@ jobs:
           registry-url: https://registry.npmjs.org/
           token: ${{ secrets.NPM_AUTH_TOKEN }} 
           scope: gm50x
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - run: npm i
       - run: npm run build
       - run: cd dist
-#       - run: | 
-#           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > .npmrc
-#           echo "registry=https://registry.npmjs.org" >> .npmrc
-#           echo "always-auth=true" >> .npmrc
       - run: npm publish
 
       

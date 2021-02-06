@@ -4,6 +4,11 @@ Chronus is a date and time manipulation library based on C#'s DateTime and TimeS
 The library exports 2 classes DateTime and TimeSpan which are used to manipulate dates and time durations. Under the hood DateTime encapuslates Date and TimeSpan encapuslates a number that represents milliseconds or ticks.
 
 There are plenty of examples down below, but you can also check the source code or tests on [Github](https://github.com/gm50x/chronus). If you have any questions feel free to open an issue there!
+
+### Supports
+- JavaScript
+- TypeScript
+
 ## Installation
 ```bash
 npm install @gm50x/chronus

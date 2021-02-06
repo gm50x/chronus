@@ -197,7 +197,11 @@ export class DateTime {
     return this.ticks === date.ticks
   }
 
+  toString(): string | any {
+    return new Date(this._ref);
+  }
+
   [inspect.custom](depth: unknown, opts: unknown): Date {
-    return new Date(this._ref)
+    return this.toString();
   }
 }

@@ -9,9 +9,6 @@
     "access": "public"
   },
   "version": "0.3.4",
-  "files": [
-    "dist/**/*"
-  ],
   "scripts": {
     "test": "jest",
     "prebuild": "rimraf dist",

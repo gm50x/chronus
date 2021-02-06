@@ -1,17 +1,20 @@
 {
   "name": "@gm50x/chronus",
-  "repository": "git://github.com/gm50x/chronus",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gm50x/chronus"
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
     "access": "public"
   },
-  "version": "0.3.0",
+  "version": "0.3.3",
   "scripts": {
     "test": "jest",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.build.json",
     "postbuild": "copyfiles -a LICENSE README.md package*.json index.ts dist",
-    "publish": "cd dist && npm publish"
+    "release": "npm publish dist"
   },
   "keywords": [],
   "author": "Getúlio Magela Silva",
@@ -40,6 +43,5 @@
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node"
-  },
-  "dependencies": {}
+  }
 }

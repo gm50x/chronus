@@ -36,8 +36,6 @@ jobs:
       - run: | 
           echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
           echo "@gm50x=registry=https://npm.pkg.github.com" >> .npmrc
-#       - run: npm publish
-      - run: ls -al
-      - run: cat .npmrc
+      - run: npm publish
         env: 
           NODE_AUTH_TOKEN: ${{ secrets.GH_AUTH_TOKEN }}

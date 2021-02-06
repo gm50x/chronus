@@ -33,57 +33,88 @@ export class TimeSpan {
     return new TimeSpan(days * ONE_DAY_MS)
   }
 
+  add(timespan: TimeSpan) {
+    return new TimeSpan(this._ref + timespan._ref)
+  }
+
+  addMilliseconds(ms: number) {
+    return this.add(TimeSpan.fromMilliseconds(ms));
+  }
+
+  addSeconds(seconds: number) {
+    return this.add(TimeSpan.fromSeconds(seconds));
+  }
+
+  addMinutes(minutes: number) {
+    return this.add(TimeSpan.fromMinutes(minutes));
+  }
+
+  addHours(hours: number) {
+    return this.add(TimeSpan.fromHours(hours));
+  }
+
+  addDays(days: number) {
+    return this.add(TimeSpan.fromDays(days));
+  }
+
+
   toString(): string {
+    console.log(this._ref);
     const pad = (n: number, x: number = 2) => n.toString().padStart(x, '0')
-    return `${this.days
-      }.${pad(this.hours % 24)
-      }:${pad(this.minutes % 60)
-      }:${pad(this.seconds % 60)
-      }.${pad(this.milliseconds % 1000, 3)
-      }`
+    const addNegativeSymbolIfNeeded = (s: string, timespan: TimeSpan = this) => `${timespan._ref < 0 ? '-' : ''}${s}`;
+    return addNegativeSymbolIfNeeded(`${Math.abs(this.days)
+      }.${pad(Math.abs(this.hours % 24))
+      }:${pad(Math.abs(this.minutes % 60))
+      }:${pad(Math.abs(this.seconds % 60))
+      }.${pad(Math.abs(this.milliseconds % 1000), 3)
+      }`);
+  }
+
+  private get isNegative(): boolean {
+    return this._ref < 0;
   }
 
   get totalMilliseconds(): number {
-    return this._ref
+    return this._ref;
   }
 
   get milliseconds(): number {
-    return this._ref
+    return this._ref;
   }
 
   get totalSeconds(): number {
-    return this._ref / ONE_SECOND_MS
+    return this._ref / ONE_SECOND_MS;
   }
 
   get seconds(): number {
-    return Math.floor(this.totalSeconds)
+    return this.isNegative ? Math.ceil(this.totalSeconds) : Math.floor(this.totalSeconds);
   }
 
   get totalMinutes(): number {
-    return this._ref / ONE_MINUTE_MS
+    return this._ref / ONE_MINUTE_MS;
   }
 
   get minutes(): number {
-    return Math.floor(this.totalMinutes)
+    return this.isNegative ? Math.ceil(this.totalMinutes) : Math.floor(this.totalMinutes);
   }
 
   get totalHours(): number {
-    return this._ref / ONE_HOUR_MS
+    return this._ref / ONE_HOUR_MS;
   }
 
   get hours(): number {
-    return Math.floor(this.totalHours)
+    return this.isNegative ? Math.ceil(this.totalHours) : Math.floor(this.totalHours);
   }
 
   get totalDays(): number {
-    return this._ref / ONE_DAY_MS
+    return this._ref / ONE_DAY_MS;
   }
 
   get days(): number {
-    return Math.floor(this.totalDays)
+    return this.isNegative ? Math.ceil(this.totalDays) : Math.floor(this.totalDays);
   }
 
   [inspect.custom](depth, opts): string {
-    return this.toString()
+    return this.toString();
   }
 }

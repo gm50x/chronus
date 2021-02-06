@@ -35,4 +35,5 @@ jobs:
           echo "@gm50x=registry=https://npm.pkg.github.com" >> .npmrc
       - run: npm i
       - run: npm run build
+      - run: cd dist
       - run: npm publish

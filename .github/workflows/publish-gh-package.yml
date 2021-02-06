@@ -5,7 +5,7 @@ name: Publish Github Package
 
 on:
   release:
-    types: [created]
+    types: [published]
   
   workflow_dispatch:
   
@@ -30,10 +30,9 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
+        env: 
+          NODE_AUTH_TOKEN: ${{ secrets.GH_AUTH_TOKEN }} 
       - run: npm i
       - run: npm run build
       - run: cd dist
-      - run: | 
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_AUTH_TOKEN }}" > .npmrc
-          echo "registry=https://npm.pkg.github.com" >> .npmrc
-      - run: npm publish
+      - run: npm publish --access public

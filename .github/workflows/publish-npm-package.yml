@@ -31,6 +31,7 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
           token: ${{ secrets.NPM_AUTH_TOKEN }} 
+          scope: gm50x
       - run: npm i
       - run: npm run build
       - run: cd dist

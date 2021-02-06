@@ -9,7 +9,7 @@
     "test": "jest",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.build.json",
-    "postbuild": "copyfiles -a LICENSE README.md package*.json index.ts dist",
+    "postbuild": "copyfiles -a LICENSE README.md package*.json index.ts dist"
   },
   "keywords": [],
   "author": "Getúlio Magela Silva",

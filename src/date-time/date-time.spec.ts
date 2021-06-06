@@ -29,7 +29,12 @@ describe(`${subject} Specs`, () => {
     expect(actual).toStrictEqual(expected + offset)
   })
 
-  it(`${subject}.fromDate should return a ${subject} instance`, () => {
+  it(`${subject}.fromDate() should return a ${subject} instance`, () => {
+    const actual = DateTime.fromDate()
+    expect(actual).toBeInstanceOf(DateTime)
+  })
+
+  it(`${subject}.fromDate(Date) should return a ${subject} instance`, () => {
     const actual = DateTime.fromDate(new Date())
     expect(actual).toBeInstanceOf(DateTime)
   })
@@ -156,4 +161,78 @@ describe(`${subject} Specs`, () => {
     ).totalMilliseconds
     expect(actual).toStrictEqual(expected)
   })
+
+  it(`new DateTime(2021, 1, 31).toDate() returns an instance of Date.`, () => {
+    const ref = new DateTime(2021, 1, 31)
+    const actual = ref.toDate()
+    expect(actual).toBeInstanceOf(Date)
+  })
+
+  it(`new DateTime(2021, 1, 31).toDate() returns a corresponding instance of Date.`, () => {
+    const ref = new DateTime(2021, 1, 31)
+    const expected = new Date(2021, 0, 31)
+    const actual = ref.toDate()
+    expect(actual).toStrictEqual(expected)
+  })
+
+  it(`new DateTime(2021, 1, 31).dayOfWeek returns a number between 0 and 6 (inclusive)`, () => {
+    const ref = new DateTime(2021, 1, 31)
+    const actual = ref.dayOfWeek
+    expect(actual).toBeGreaterThanOrEqual(0)
+    expect(actual).toBeLessThan(7)
+  })
+
+  for (let i = 0; i < 7; i++) {
+    it(`new DateTime(2021, 1, ${i + 3}).dayOfWeek returns ${i} coresponding to the day of the week`, () => {
+      const ref = new DateTime(2021, 1, i + 3)
+      const actual = ref.dayOfWeek
+      expect(actual).toStrictEqual(i)
+    })
+  }
+
+  it(`new DateTime(n).dayOfYear returns a number between 1 and 365 (inclusive)`, () => {
+    const refs = [
+      new DateTime(2021, 1, 1),
+      new DateTime(2021, 12, 31)
+    ]
+
+    refs.forEach(ref => {
+      const actual = ref.dayOfYear
+      expect(actual).toBeGreaterThanOrEqual(1)
+      expect(actual).toBeLessThanOrEqual(365)
+    })
+  })
+
+  it(`new DateTime(n).dayOfYear returns a number between 1 and 366 (inclusive) on leap years`, () => {
+    const refs = [
+      new DateTime(2024, 1, 1),
+      new DateTime(2024, 12, 31)
+    ]
+
+    refs.forEach(ref => {
+      const actual = ref.dayOfYear
+      expect(actual).toBeGreaterThanOrEqual(1)
+      expect(actual).toBeLessThanOrEqual(366)
+    })
+  })
+
+  it(`new DateTime(2021, 12, 31).dayOfYear returns the number 366 on a leap year`, () => {
+    const ref = new DateTime(2024, 12, 31)
+    const actual = ref.dayOfYear
+    expect(actual).toStrictEqual(366)
+  })
+
+  for (const year of [2021, 2024]) {
+    let dayOfYear = 1
+    for (let month = 1; month <= 12; month++) {
+      for (let day = 1; day <= DateTime.daysInMonth(year, month); day++) {
+        it(`new DateTime(${year}, ${month}, ${day}).dayOfYear returns ${dayOfYear}`, () => {
+          const ref = new DateTime(year, month, day)
+          const actual = ref.dayOfYear
+          expect(actual).toStrictEqual(dayOfYear)
+          dayOfYear++
+        })
+      }
+    }
+  }
 })

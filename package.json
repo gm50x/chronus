@@ -13,7 +13,7 @@
     "**/*.d.ts"
   ],
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.build.json",
     "postbuild": "copyfiles -a LICENSE README.md package*.json index.ts dist"
@@ -39,6 +39,10 @@
       "js",
       "json",
       "ts"
+    ],
+    "modulePathIgnorePatterns": [
+      "dist",
+      "coverage"
     ],
     "rootDir": ".",
     "testRegex": ".*\\.spec\\.ts$",
